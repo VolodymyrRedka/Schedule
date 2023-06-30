@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Ticket Details</title>
+  <style>
+    body {
+      background-image: url("https://png.pngtree.com/background/20230525/original/pngtree-futuristic-rapid-transit-train-with-futuristic-cityscape-picture-image_2739607.jpg");
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #563607;
+      text-align: center;
+      font-family: 'Arial Black', sans-serif;
+      font-size: 36px;
+      margin-top: 0;
+    }
+
+    table {
+      background-color: rgba(255, 255, 255, 0.7);
+      border-collapse: collapse;
+      margin: 20px auto;
+      width: 80%;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+      color: #333;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+
+    .fare {
+      color: #27ae60;
+      font-size: 18px;
+    }
+
+    .passenger-details {
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 10px;
+      margin-top: 20px;
+    }
+
+    .passenger-name {
+      color: #80000b;
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .wish-message {
+      text-align: center;
+      font-style: italic;
+      color: #fd4c01;
+      margin-top: 40px;
+      font-size: 24px;
+      white-space: pre-line; /* Додаємо цей стиль для збереження перенесення рядка */
+    }
+  </style>
+</head>
+<body>
+<h1>★彡彡彡彡彡彡★ КВИТОК ★彡彡彡彡彡彡★</h1>
+<table>
+  <tr>
+    <th>Назва маршруту</th>
+    <td th:text="${ticket.routeName}"></td>
+  </tr>
+  <tr>
+    <th>Станція відправлення</th>
+    <td th:text="${ticket.segmentDepartureStation}"></td>
+  </tr>
+  <tr>
+    <th>Станція прибуття</th>
+    <td th:text="${ticket.segmentArrivalStation}"></td>
+  </tr>
+  <tr>
+    <th>ID поїзда</th>
+    <td th:text="${ticket.trainId}"></td>
+  </tr>
+  <tr>
+    <th>Статус поїзда</th>
+    <td th:text="${ticket.trainStatus}"></td>
+  </tr>
+  <tr>
+    <th>ID вагона</th>
+    <td th:text="${ticket.wagonId}"></td>
+  </tr>
+  <tr>
+    <th>Статус вагона</th>
+    <td th:text="${ticket.wagonStatus}"></td>
+  </tr>
+  <tr>
+    <th>Вибране місце</th>
+    <td th:text="${ticket.selectedSeat}"></td>
+  </tr>
+  <tr>
+    <th>Час відправлення</th>
+    <td th:text="${ticket.departureTime}"></td>
+  </tr>
+  <tr>
+    <th>Відстань</th>
+    <td th:text="${ticket.distance}"></td>
+  </tr>
+  <tr>
+    <th>Тривалість</th>
+    <td th:text="${ticket.duration}"></td>
+  </tr>
+  <tr>
+    <th>Вартість</th>
+    <td class="fare" th:text="${ticket.fare}"></td>
+  </tr>
+  <tr>
+    <th>Пасажир ID</th>
+    <td th:text="${ticket.passengerId.id}"></td>
+  </tr>
+  <tr>
+    <th>Ім'я</th>
+    <td class="passenger-details">
+      <div class="passenger-name" th:text="${ticket.passengerId.firstName} + ' ' + ${ticket.passengerId.lastName}"></div>
+      <div th:text="${ticket.passengerId.email}"></div>
+    </td>
+  </tr>
+  <tr>
+    <th>ID квитка</th>
+    <td th:text="${ticket.id}"></td>
+  </tr>
+  <tr>
+    <th>ID сегменту</th>
+    <td th:text="${ticket.segmentId}"></td>
+  </tr>
+</table>
+<p class="wish-message">✴✧✧✧✧✧✴ ЧУДОВО! ✴✧✧✧✧✧✴&#13;&#10;❁✿✿✿✿✿❁РАДІ ЩО ВИ СКОРИСТАЛИСЯ НАШОЮ КОМПАНІЄЮ!❁✿✿✿✿✿❁&#13;&#10;✦✯✯✯✯✯✦ НАСОЛОДЖУЙТЕСЯ ВАШОЮ ПОДОРОЖЖЮ! ✦✯✯✯✯✯✦</p>
+</body>
+</html>

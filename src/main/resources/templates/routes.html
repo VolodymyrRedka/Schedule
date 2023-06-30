@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Список маршрутів</title>
+    <style>
+        .collapsed {
+            display: none;
+        }
+        .highlight {
+            background-color: green;
+        }
+        .seat-info ul {
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>Маршрути за станцією</h1>
+<ul>
+    <li th:each="route : ${matchingRoutes}">
+        <h2>
+            <a href="#">
+                <span th:text="${route.name}"></span>
+            </a>
+        </h2>
+        <p>Поїзд: <span th:text="'ID-' + ${route.train.trainId}"></span> <span th:text="'Статус -' + ${route.statusTrain}"></span></p>
+        <p>Перша станція: <span th:text="${route.firstStationName}"></span></p>
+        <p>Остання станція: <span th:text="${route.lastStationName}"></span></p>
+        <p>Час прибуття на першу станцію: <span th:text="${route.arrivalTimeFirst}"></span></p>
+        <p>Час прибуття на останню станцію: <span th:text="${route.arrivalTimeFinal}"></span></p>
+        <p>Відстань: <span th:text="${route.totalDistance}"></span></p>
+        <p>Тривалість: <span th:text="${route.totalDuration}"></span></p>
+
+        <h3>Вагони:</h3>
+        <ul>
+            <li th:each="wagon : ${route.wagons}">
+                <h4 onclick="toggleWagonInfo(this)">
+                    <span th:text="'Вагон ' + ${wagon.id}"></span>
+                </h4>
+                <div class="wagon-info collapsed seat-info">
+                    <p>Статус вагона: <span th:text="${wagon.statusWagon}"></span></p>
+                    <p>Кількість місць: <span th:text="${wagon.seatCount}"></span></p>
+                    <h4 onclick="toggleSeats(this)">Місця:</h4>
+                    <ul class="collapsed">
+                        <li th:each="seat, seatStat : ${wagon.seats}">
+                            <p onclick="toggleInfo(this)">
+                               <span>
+                                <span style="font-weight: bold; color: Brown;">Місце id -</span>
+                                <span th:text="${seat.id}"></span></span>
+                                <span style="font-weight: bold; color: Brown;">№-</span>
+                                <span th:text="${seat.number}"></span>
+                                <span style="font-weight: bold; color: Brown;">Статус-</span>
+                                <span th:text="${seat.statusSeat}"></span>
+<!--                            </p>-->
+<!--                            <form th:action="@{/api/passengers}" method="post">-->
+<!--                                <input type="hidden" name="seatId" th:value="${seat.id}" />-->
+<!--                                <input type="text" name="firstName" placeholder="Ім'я" required />-->
+<!--                                <input type="text" name="lastName" placeholder="Прізвище" required />-->
+<!--                                <input type="email" name="email" placeholder="Електронна пошта" required />-->
+<!--                                <button type="submit">Забронювати</button>-->
+<!--                            </form>-->
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+
+        <h3>Станції:</h3>
+        <ul>
+            <li th:each="segment : ${route.segments}">
+                <h4 onclick="toggleInfo(this)">
+                    <span th:text="${segment.id}"></span> - Від <span th:text="${segment.departureStation.name}"></span> до <span th:text="${segment.arrivalStation.name}"></span>
+                </h4>
+                <div class="segment-info collapsed seat-info">
+                    <p>Станція відправлення: <span th:text="${segment.departureStation.name}"></span></p>
+                    <p>Час прибуття: <span th:text="${segment.arrivalTime}"></span></p>
+                    <p>Час відправлення: <span th:text="${segment.departureTime}"></span></p>
+                    <p>Станція прибуття: <span th:text="${segment.arrivalStation.name}"></span></p>
+                    <p>Час зупинки: <span th:text="${segment.stopDuration}"></span></p>
+                    <p>Відстань до наступної станції: <span th:text="${segment.distance}"></span></p>
+                    <p>Час в дорозі до наступної станції: <span th:text="${segment.duration}"></span></p>
+                    <p>Вартість сегменту:</p>
+                    <ul>
+                        <li th:each="wagonStatus : ${segment.wagonStatuses}">
+                            <p>
+                                <span th:text="${wagonStatus.wagonStatusName}"></span> -
+                                <span th:text="${wagonStatus.cost}"></span> грн
+                            </p>
+
+                            <ul>
+                                <li th:each="wagon : ${wagonStatus.wagonStatus}">
+                                    <h4 onclick="toggleWagonInfo(this)">
+                                        <span th:text="'Вагон ' + ${wagon.id}"></span>
+                                    </h4>
+                                    <div class="wagon-info collapsed seat-info">
+                                        <p>Статус вагона: <span th:text="${wagon.statusWagon}"></span></p>
+                                        <p onclick="toggleSeats(this)">Кількість місць: <span th:text="${wagon.seatCount}"></span></p>
+                                        <ul class="collapsed">
+                                            <li th:each="seat, seatStat : ${wagon.seats}">
+                                                <p onclick="toggleInfo(this)">
+                                                    <span>
+                                <span style="font-weight: bold; color: Brown;">Місце id -</span>
+                                <span th:text="${seat.id}"></span></span>
+                                                    <span style="font-weight: bold; color: Brown;">№-</span>
+                                                    <span th:text="${seat.number}"></span>
+                                                    <span style="font-weight: bold; color: Brown;">Статус-</span>
+                                                    <span th:text="${seat.statusSeat}"></span>
+                                                </p>
+                                                <form th:action="@{/api/passengers}" method="post">
+                                                    <input type="hidden" name="seatId" th:value="${seat.id}" />
+                                                    <input type="text" name="firstName" placeholder="Ім'я" required />
+                                                    <input type="text" name="lastName" placeholder="Прізвище" required />
+                                                    <input type="email" name="email" placeholder="Електронна пошта" required />
+                                                    <button type="submit">Забронювати</button>
+                                                </form>
+                                                <form th:action="@{/api/tickets}" method="post">
+                                                    <!-- Решта полів форми -->
+
+                                                    <!-- Поле для передачі ідентифікатора сегменту маршруту -->
+                                                    <input type="hidden" name="segmentId" th:value="${segment.id}" />
+
+                                                    <!-- Поле для передачі інформації про сегмент маршруту -->
+                                                    <input type="hidden" name="segmentDepartureStation" th:value="${segment.departureStation.name}" />
+                                                    <input type="hidden" name="segmentArrivalStation" th:value="${segment.arrivalStation.name}" />
+                                                    <!-- Додайте інші поля про сегмент маршруту, які вам потрібні -->
+
+                                                    <!-- Поле для передачі інформації про вибране місце -->
+                                                    <input type="hidden" name="selectedSeat" th:value="${seat.number}" />
+
+                                                    <!-- Поле для передачі назви маршруту -->
+                                                    <input type="hidden" name="routeName" th:value="${route.name}" />
+
+                                                    <!-- Поле для передачі ідентифікатора та статусу поїзда -->
+                                                    <input type="hidden" name="trainId" th:value="${route.train.trainId}" />
+                                                    <input type="hidden" name="trainStatus" th:value="${route.statusTrain}" />
+
+                                                    <!-- Поле для передачі часу відправлення -->
+                                                    <input type="hidden" name="departureTime" th:value="${segment.departureTime}" />
+
+                                                    <!-- Поле для передачі дистанції та часу в дорозі -->
+                                                    <input type="hidden" name="distance" th:value="${segment.distance}" />
+                                                    <input type="hidden" name="duration" th:value="${segment.duration}" />
+
+                                                    <!-- Поле для передачі ідентифікатора та статусу вагона -->
+                                                    <input type="hidden" name="wagonId" th:value="${wagon.id}" />
+                                                    <input type="hidden" name="wagonStatus" th:value="${wagon.statusWagon}" />
+
+                                                    <!-- Поле для передачі вартості, що відповідає статусу вагона -->
+                                                    <input type="hidden" name="fare" th:value="${wagonStatus.cost}" />
+
+                                                    <!-- Решта полів форми для створення пасажира -->
+                                                    <input type="text" name="firstName" placeholder="Ім'я" required />
+                                                    <input type="text" name="lastName" placeholder="Прізвище" required />
+                                                    <input type="email" name="email" placeholder="Електронна пошта" required />
+                                                    <button type="submit">Купити</button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<script>
+    function toggleInfo(element) {
+        element.nextElementSibling.classList.toggle("collapsed");
+    }
+
+    function toggleWagonInfo(element) {
+        element.nextElementSibling.classList.toggle("collapsed");
+    }
+
+    function toggleSeats(element) {
+        const seats = element.parentNode.getElementsByClassName("collapsed");
+        for (let i = 0; i < seats.length; i++) {
+            seats[i].classList.toggle("collapsed");
+        }
+    }
+</script>
+</body>
+</html>

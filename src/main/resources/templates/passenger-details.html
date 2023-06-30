@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Підтвердження бронювання</title>
+  <style>
+    body {
+      background-image: url("https://img.freepik.com/premium-photo/futuristic-modern-train-non-existent-design_257123-10664.jpg");
+      background-size: cover;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin: 0;
+    }
+    h1 {
+      font-size: 26px;
+      text-align: left;
+      margin-bottom: 10px;
+      margin-top: 0;
+    }
+    .container {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+    }
+    table {
+      width: 100%;
+      margin-bottom: 50px;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ffffff;
+    }
+    strong {
+      font-weight: bold;
+    }
+    .confirmation {
+      font-size: 24px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+<h1>Підтвердження бронювання</h1>
+<div class="container">
+  <table>
+    <tr>
+      <th>Номер місця</th>
+      <td><strong th:text="${passenger.seat.number}"></strong></td>
+    </tr>
+    <tr>
+      <th>Ім'я пасажира</th>
+      <td><strong th:text="${passenger.firstName}"></strong></td>
+    </tr>
+    <tr>
+      <th>Прізвище пасажира</th>
+      <td><strong th:text="${passenger.lastName}"></strong></td>
+    </tr>
+    <tr>
+      <th>Email пасажира</th>
+      <td><strong th:text="${passenger.email}"></strong></td>
+    </tr>
+  </table>
+</div>
+<p class="confirmation">Бронювання підтверджено.</p>
+</body>
+</html>
